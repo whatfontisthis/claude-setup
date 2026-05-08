@@ -366,7 +366,7 @@ JSON
     },
     {
         "key": "cmd+1",
-        "command": "extension.openInDefaultBrowser"
+        "command": "openInDefaultBrowser.openInDefaultBrowser"
     }
 ]
 JSON

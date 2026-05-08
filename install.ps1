@@ -401,7 +401,7 @@ if (-not (Resolve-VSCodePath)) {
     },
     {
         "key": "ctrl+1",
-        "command": "extension.openInDefaultBrowser"
+        "command": "openInDefaultBrowser.openInDefaultBrowser"
     }
 ]
 '@
