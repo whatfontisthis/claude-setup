@@ -6,19 +6,19 @@
 
 ## Windows
 
-**1.** `Win` 키 → `powershell` 입력 → Windows PowerShell 실행
+**1단계.** 키보드의 `Windows` 키를 누르면 검색창이 나타납니다. 거기에 `powershell`이라고 입력하면 검색 결과 맨 위에 **Windows PowerShell**이 뜹니다. 클릭하면 파란색(또는 검은색) 명령창이 하나 열립니다. 앞으로 모든 작업은 이 창에서 진행됩니다.
 
-**2.** PowerShell 창에 우클릭(붙여넣기) → 엔터:
+**2단계.** 아래 명령어 한 줄을 통째로 복사하세요. PowerShell 창 안에서 **마우스 우클릭**을 하면 자동으로 붙여넣기가 됩니다(또는 `Ctrl + V`). 그 상태에서 엔터(↵)를 누르면 설치가 시작됩니다.
 
 ```powershell
 irm https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/install.ps1 | iex
 ```
 
-설치 중 UAC(관리자 권한) 창이 뜰 수 있습니다 → "예" 클릭
+설치 도중 **"이 앱이 디바이스를 변경할 수 있도록 허용"** 같은 UAC 팝업이 뜰 수 있습니다. 정상이며, **"예"**를 클릭하면 됩니다.
 
-**3.** 8단계 완료까지 대기 (5~10분)
+**3단계.** 화면에 `[1/8]`부터 `[8/8]`까지 순서대로 진행 상황이 출력됩니다. 보통 5~10분 정도 걸리니 그동안 다른 일을 해도 됩니다. 마지막에 ✓ 표시들이 뜨면 설치가 끝난 것입니다.
 
-**4.** PowerShell 창을 완전히 닫고 새로 열어 한 줄씩 실행:
+**4단계.** 설치된 도구들을 PowerShell이 인식하려면 **창을 X 버튼으로 완전히 닫고 새 창을 다시 열어주세요.** 그 다음 아래 명령어를 한 줄씩 실행해 각 도구가 제대로 깔렸는지 확인합니다.
 
 ```powershell
 node --version
@@ -29,23 +29,23 @@ claude --version
 code --version
 ```
 
-각 명령어가 버전 번호를 출력하면 정상 설치 완료.
+각 명령어가 `v22.x.x` 같은 **버전 번호**를 출력하면 정상입니다. 만약 "명령을 찾을 수 없습니다"가 나오면 아래 **자주 겪는 문제** 섹션을 확인하세요.
 
 ## macOS
 
-**1.** `⌘ + Space` → `terminal` → 엔터
+**1단계.** 키보드에서 `⌘ + Space`를 동시에 누르면 화면 가운데에 검색창(Spotlight)이 뜹니다. `terminal`이라고 입력하고 엔터를 누르면 검은 배경의 명령창이 열립니다.
 
-**2.** `⌘ + V`로 붙여넣고 엔터:
+**2단계.** 아래 명령어를 복사한 뒤 터미널 창에서 `⌘ + V`로 붙여넣고 엔터를 누르세요.
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/install.sh)"
 ```
 
-처음 macOS에서 설치하면 Xcode CLT 다운로드로 시간이 더 걸립니다.
+**처음 설치하는 Mac이라면** Xcode Command Line Tools 다운로드 단계에서 별도 팝업이 뜨고 시간이 꽤 걸릴 수 있습니다(인터넷 속도에 따라 10~20분). 팝업이 뜨면 **"설치"**를 클릭하고 끝날 때까지 기다려주세요.
 
-**3.** 9단계 완료까지 대기
+**3단계.** `[1/9]`부터 `[9/9]`까지 진행 단계가 표시됩니다. 마지막에 ✓ 표시들이 다 뜨면 완료입니다.
 
-**4.** 터미널 창을 완전히 닫고 새로 열어 한 줄씩 실행:
+**4단계.** 터미널 창을 완전히 닫고(`⌘ + Q`) 새로 열어주세요. 그 다음 아래 명령어를 한 줄씩 실행합니다.
 
 ```bash
 node --version
@@ -56,17 +56,7 @@ claude --version
 code --version
 ```
 
-각 명령어가 버전 번호를 출력하면 완료.
-
-## 추가 옵션 (선택)
-
-```powershell
-# 터미널 꾸미기 (Oh My Posh) — Windows
-irm https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/customize.ps1 | iex
-
-# 클린 초기화 — 8개 도구 모두 제거. 재설치 테스트용 (Windows)
-irm https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/uninstall-win.ps1 | iex
-```
+각 명령어가 버전 번호를 출력하면 완료입니다.
 
 ## 자주 겪는 문제
 
