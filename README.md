@@ -8,19 +8,27 @@
 
 ## Windows
 
-1. 키보드 `Windows` 키 → `powershell` 입력 → **Windows PowerShell** 실행.
+1. **PowerShell 열기**
 
-2. 아래 명령어를 PowerShell 창에 우클릭으로 붙여넣고 엔터.
+    시작 → `powershell` 입력 → **Windows PowerShell** 클릭
+
+2. **스크립트 실행**
+
+    아래 카드를 복사한 뒤 PowerShell 창에 우클릭으로 붙여넣고 엔터.
 
     ```powershell
     irm https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/install.ps1 | iex
     ```
 
-    설치 중 UAC 팝업이 뜨면 **"예"** 클릭.
+    설치 도중 UAC 팝업이 뜨면 **"예"** 클릭.
 
-3. `[1/8]`부터 `[8/8]`까지 진행. 5~10분 소요.
+3. **설치 진행 대기**
 
-4. PowerShell 창을 완전히 닫고 새로 연 뒤 한 줄씩 실행:
+    `[1/8]`부터 `[8/8]`까지 자동 진행. 5~10분 소요.
+
+4. **설치 확인**
+
+    PowerShell 창을 완전히 닫고 새로 연 뒤, 아래를 한 줄씩 실행해 버전이 출력되는지 확인.
 
     ```powershell
     node --version
@@ -31,25 +39,31 @@
     code --version
     ```
 
-    각 명령어가 버전 번호를 출력하면 완료.
-
 &nbsp;
 
 ## macOS
 
-1. `⌘ + Space` → `terminal` 입력 → 엔터.
+1. **터미널 열기**
 
-2. 아래 명령어를 `⌘ + V`로 붙여넣고 엔터.
+    `⌘ + Space` → `terminal` 입력 → 엔터
+
+2. **스크립트 실행**
+
+    아래 카드를 복사한 뒤 터미널에 `⌘ + V`로 붙여넣고 엔터.
 
     ```bash
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/install.sh)"
     ```
 
-    처음 설치 Mac이면 Xcode CLT 팝업 → **"설치"** 클릭 (10~20분 소요).
+    처음 설치하는 Mac이면 Xcode CLT 팝업이 뜸 → **"설치"** 클릭 (10~20분).
 
-3. `[1/9]`부터 `[9/9]`까지 진행 완료 대기.
+3. **설치 진행 대기**
 
-4. 터미널 창을 `⌘ + Q`로 닫고 새로 연 뒤 한 줄씩 실행:
+    `[1/9]`부터 `[9/9]`까지 자동 진행.
+
+4. **설치 확인**
+
+    터미널을 `⌘ + Q`로 닫고 새로 연 뒤, 아래를 한 줄씩 실행.
 
     ```bash
     node --version
@@ -59,8 +73,6 @@
     claude --version
     code --version
     ```
-
-    각 명령어가 버전 번호를 출력하면 완료.
 
 &nbsp;
 
