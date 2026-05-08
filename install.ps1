@@ -72,6 +72,13 @@ function Backup-IfExists {
     }
 }
 
+# PowerShell 5.1의 Out-File -Encoding utf8은 BOM을 포함시킨다. JSON 파서 호환성 위해 BOM 없는 UTF-8로 기록
+function Write-Utf8NoBom {
+    param([string]$Path, [string]$Content)
+    $utf8 = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText($Path, $Content, $utf8)
+}
+
 Write-Host ""
 Write-Host "🚀 클로드 코드 올인원 설치를 시작합니다" -ForegroundColor White
 Write-Host "   Windows $([System.Environment]::OSVersion.Version)" -ForegroundColor Gray
@@ -184,9 +191,9 @@ if (Test-Command "claude") {
 } else {
     Write-Host "  Claude Code를 설치합니다..."
 
-    # winget으로 설치 (Windows 10+ 기본 내장)
+    # winget으로 설치 (Windows 10+ 기본 내장). --scope user로 UAC 회피
     if (Test-Command "winget") {
-        winget install --id Anthropic.ClaudeCode -e --accept-source-agreements --accept-package-agreements
+        winget install --id Anthropic.ClaudeCode -e --scope user --accept-source-agreements --accept-package-agreements
     } else {
         # winget 없으면 npm 폴백
         npm install -g @anthropic-ai/claude-code
@@ -207,7 +214,8 @@ if (Test-Command "code") {
     Write-Host "  VS Code를 설치합니다..."
 
     if (Test-Command "winget") {
-        winget install Microsoft.VisualStudioCode -e --accept-source-agreements --accept-package-agreements
+        # --scope user로 관리자 권한(UAC) 없이 설치
+        winget install Microsoft.VisualStudioCode -e --scope user --accept-source-agreements --accept-package-agreements
     } else {
         # winget 없으면 scoop extras 폴백
         scoop bucket add extras 2>$null
@@ -348,7 +356,7 @@ if (-not (Resolve-VSCodePath)) {
 }
 '@
 
-    $settings | Out-File -FilePath $settingsPath -Encoding utf8
+    Write-Utf8NoBom -Path $settingsPath -Content $settings
     Write-Ok "settings.json 저장됨"
 
     # keybindings.json
@@ -398,7 +406,7 @@ if (-not (Resolve-VSCodePath)) {
 ]
 '@
 
-    $keybindings | Out-File -FilePath $keybindingsPath -Encoding utf8
+    Write-Utf8NoBom -Path $keybindingsPath -Content $keybindings
     Write-Ok "keybindings.json 저장됨"
 }
 

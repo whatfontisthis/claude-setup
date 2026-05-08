@@ -75,9 +75,3 @@ Write-Host "     4. jandedobbeleer 부분을 원하는 테마 이름으로 교�
 Write-Host ""
 Write-Host "  터미널을 재시작하면 적용됩니다 🚀" -ForegroundColor White
 Write-Host ""
-```
-
-GitHub에 `customize.ps1`로 새 파일 추가하면 돼요. README에는 이렇게 안내:
-```
-# 선택사항 — 터미널 꾸미기
-irm https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/customize.ps1 | iex
