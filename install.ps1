@@ -418,13 +418,34 @@ Write-Host "━━━━━━━━━━━━━━━━━━━━━━�
 Write-Host ""
 Write-Host "  설치된 항목:" -ForegroundColor White
 
+# 버전 출력은 native command error 무시 (stderr 병합 시 PowerShell이 throw 방지)
+$prevEAP = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
+if ($PSVersionTable.PSVersion.Major -ge 7) { $PSNativeCommandUseErrorActionPreference = $false }
+
+function Get-CmdVersion {
+    param([scriptblock]$Block)
+    try { (& $Block 2>&1 | Out-String).Trim() } catch { "" }
+}
+
 if (Test-Command "scoop") { Write-Host "  ✓ Scoop" -ForegroundColor Green }
-if (Test-Command "node") { Write-Host "  ✓ Node.js   $(node -v)" -ForegroundColor Green }
-if (Test-Command "python") { Write-Host "  ✓ Python    $(python --version 2>&1)" -ForegroundColor Green }
-if (Test-Command "git") { Write-Host "  ✓ Git       $(git --version)" -ForegroundColor Green }
-if (Test-Command "gh") { Write-Host "  ✓ GitHub CLI $((gh --version | Select-Object -First 1))" -ForegroundColor Green }
+if (Test-Command "node") { Write-Host "  ✓ Node.js   $(Get-CmdVersion { node -v })" -ForegroundColor Green }
+if (Test-Command "python") {
+    $pySrc = (Get-Command python -ErrorAction SilentlyContinue).Source
+    if ($pySrc -and $pySrc -notmatch "WindowsApps") {
+        $pyVer = Get-CmdVersion { python --version }
+        if ($pyVer) { Write-Host "  ✓ Python    $pyVer" -ForegroundColor Green }
+    }
+}
+if (Test-Command "git") { Write-Host "  ✓ Git       $(Get-CmdVersion { git --version })" -ForegroundColor Green }
+if (Test-Command "gh") {
+    $ghVer = Get-CmdVersion { gh --version | Select-Object -First 1 }
+    Write-Host "  ✓ GitHub CLI $ghVer" -ForegroundColor Green
+}
 if (Test-Command "claude") { Write-Host "  ✓ Claude Code" -ForegroundColor Green }
 if (Test-Command "code") { Write-Host "  ✓ VS Code" -ForegroundColor Green }
+
+$ErrorActionPreference = $prevEAP
 
 Write-Host ""
 Write-Host "  다음 단계:" -ForegroundColor White
