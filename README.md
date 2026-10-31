@@ -86,6 +86,24 @@ Vercel이나 Supabase 계정이 없으면 로그인 화면에서 **Continue with
 
 &nbsp;
 
+## VS Code (선택)
+
+수업에서는 쓰지 않습니다. 코드 편집기가 따로 필요할 때만 설치하세요. VS Code와 확장 8개, 권장 설정, 단축키가 같이 들어갑니다. 원래 쓰던 설정 파일이 있으면 백업해두고 덮어씁니다.
+
+Windows (PowerShell):
+
+```powershell
+irm https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/vscode.ps1 | iex
+```
+
+macOS (터미널):
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/vscode.sh)"
+```
+
+&nbsp;
+
 ## 자주 겪는 문제
 
 <details>

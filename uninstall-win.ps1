@@ -23,6 +23,13 @@ if (Get-Command winget -ErrorAction SilentlyContinue) {
     winget uninstall --id Anthropic.Claude -e --silent
     Write-Host "  ChatGPT 앱 제거..." -ForegroundColor Yellow
     winget uninstall --id 9PLM9XGG6VKS --silent
+    Write-Host "  VS Code 제거..." -ForegroundColor Yellow
+    winget uninstall --id Microsoft.VisualStudioCode -e --silent
+}
+
+# vscode.ps1 이 쓴 VS Code 설정/키바인딩 (백업본은 남김)
+foreach ($file in @("$env:APPDATA\Code\User\settings.json", "$env:APPDATA\Code\User\keybindings.json")) {
+    if (Test-Path $file) { Remove-Item -Force $file }
 }
 
 # Scoop 과 Scoop 으로 설치한 전부 (Git, Node.js, Python, uv, gh, Supabase CLI, npm 전역 패키지인 Vercel CLI 포함)
@@ -65,6 +72,7 @@ Write-Host "  gh --version" -ForegroundColor Gray
 Write-Host "  supabase --version" -ForegroundColor Gray
 Write-Host "  vercel --version" -ForegroundColor Gray
 Write-Host "  scoop --version" -ForegroundColor Gray
+Write-Host "  code --version" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  C:\projects 폴더는 남겨뒀습니다." -ForegroundColor Gray
 Write-Host ""
