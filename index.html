@@ -103,6 +103,7 @@ ul.plain { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
   padding: 0 16px; background: var(--marker); color: var(--marker-ink); white-space: nowrap;
 }
 .copy.done { background: var(--ok); color: #fff; }
+.cmd.prompt pre { white-space: pre-wrap; font-family: var(--font-body); font-size: 15px; line-height: 1.7; }
 
 /* 도구 설명 표 */
 .tools { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 16px; font-size: 15px; margin: 0; }
@@ -251,6 +252,17 @@ footer { padding-block: 32px 48px; color: var(--muted); font-size: 14px; }
       </div>
     </li>
 
+    <li class="step">
+      <div class="num">8</div>
+      <div class="body">
+        <h2>AI에게 설치 확인 맡기기</h2>
+        <p>폴더를 연 AI 앱 채팅창에 아래 문장을 붙여넣고 보내세요. AI가 직접 확인해서 표로 알려줍니다.</p>
+        <div class="cmd prompt"><pre id="w-check">Git, Node.js, Python, uv, GitHub CLI, Vercel CLI, Supabase CLI가 잘 설치됐는지 확인해줘. GitHub, Vercel, Supabase는 로그인됐는지도 봐줘. 결과는 표로 보여주고, 문제가 있으면 쉬운 말로 고치는 법을 알려줘.</pre><button class="copy" data-copy="w-check">복사</button></div>
+        <p class="why"><b>왜 AI에게 확인하나요?</b> PowerShell에서는 잘 되는데 AI 앱만 도구를 못 찾는 경우가 있어요. AI가 직접 확인해서 전부 문제없다고 하면 수업 준비가 정말 끝난 거예요.</p>
+        <div class="note"><b>AI가 "실행해도 될까요?"라고 물으면</b> 허용(Allow 또는 Approve)을 누르세요. 문제가 있다고 나오면 AI가 알려주는 대로 따라 하거나, 그 화면을 선생님께 보여주세요.</div>
+      </div>
+    </li>
+
   </ol>
 </section>
 
@@ -356,6 +368,17 @@ footer { padding-block: 32px 48px; color: var(--muted); font-size: 14px; }
         <p>Launchpad나 응용 프로그램 폴더에서 <b>Claude</b> 또는 <b>ChatGPT</b> 앱을 열고 로그인하세요. 프로젝트 폴더를 고르라고 하면 홈 폴더의 <mark>projects</mark> 안에 새 폴더(예: <code>my-first-app</code>)를 만들어서 선택합니다.</p>
         <p class="why"><b>왜 데스크탑이 아니라 projects 폴더인가요?</b> 데스크탑과 문서 폴더는 iCloud가 동기화하는 경우가 많아요. Next.js 프로젝트에는 파일이 수만 개 생기는데, 이게 동기화되면서 느려지거나 깨집니다.</p>
         <div class="note"><b>설치 전에 Claude나 ChatGPT 앱을 켜뒀다면</b> 앱을 앞에 띄운 상태에서 <kbd>⌘</kbd> + <kbd>Q</kbd>로 완전히 끄고 다시 켜세요. 안 그러면 AI가 방금 설치한 도구를 못 찾아요.</div>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="num">9</div>
+      <div class="body">
+        <h2>AI에게 설치 확인 맡기기</h2>
+        <p>폴더를 연 AI 앱 채팅창에 아래 문장을 붙여넣고 보내세요. AI가 직접 확인해서 표로 알려줍니다.</p>
+        <div class="cmd prompt"><pre id="m-check">Git, Node.js, Python, uv, GitHub CLI, Vercel CLI, Supabase CLI가 잘 설치됐는지 확인해줘. GitHub, Vercel, Supabase는 로그인됐는지도 봐줘. 결과는 표로 보여주고, 문제가 있으면 쉬운 말로 고치는 법을 알려줘.</pre><button class="copy" data-copy="m-check">복사</button></div>
+        <p class="why"><b>왜 AI에게 확인하나요?</b> 터미널에서는 잘 되는데 AI 앱만 도구를 못 찾는 경우가 있어요. AI가 직접 확인해서 전부 문제없다고 하면 수업 준비가 정말 끝난 거예요.</p>
+        <div class="note"><b>AI가 "실행해도 될까요?"라고 물으면</b> 허용(Allow 또는 Approve)을 누르세요. 문제가 있다고 나오면 AI가 알려주는 대로 따라 하거나, 그 화면을 선생님께 보여주세요.</div>
       </div>
     </li>
 
