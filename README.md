@@ -4,6 +4,8 @@
 
 AI 앱(Claude 또는 ChatGPT의 Codex)과 Next.js, Python, GitHub, Vercel, Supabase를 쓰는 데 필요한 것들입니다. 이미 설치된 항목은 건너뛰므로 여러 번 실행해도 괜찮습니다.
 
+단계별 설명이 있는 안내 페이지: **https://whatfontisthis.github.io/claude-setup/**
+
 &nbsp;
 
 ## Windows
