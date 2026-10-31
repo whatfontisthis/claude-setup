@@ -1,5 +1,6 @@
 # ============================================================
 # 윈도우 개발 환경 초기화 (클린 테스트용)
+# install.ps1 / login.ps1 이 만든 것을 지운다. C:\projects 안의 프로젝트는 건드리지 않는다.
 # 사용법: irm https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/uninstall-win.ps1 | iex
 # ============================================================
 
@@ -7,80 +8,63 @@
 if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host "  관리자 권한으로 재실행합니다..." -ForegroundColor Yellow
     Start-Process PowerShell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm https://raw.githubusercontent.com/whatfontisthis/claude-setup/main/uninstall-win.ps1 | iex`""
-    exit
+    return
 }
 
 $ErrorActionPreference = "SilentlyContinue"
 
 Write-Host ""
-Write-Host "🧹 윈도우 개발 환경을 초기화합니다" -ForegroundColor White
+Write-Host "윈도우 개발 환경을 초기화합니다" -ForegroundColor White
 Write-Host ""
 
-# Claude Code (npm + winget)
-Write-Host "  Claude Code 제거..." -ForegroundColor Yellow
-npm uninstall -g @anthropic-ai/claude-code 2>$null
-
-# winget으로 설치된 도구 제거
+# AI 데스크톱 앱
 if (Get-Command winget -ErrorAction SilentlyContinue) {
-    winget uninstall Anthropic.ClaudeCode --silent 2>$null
-
-    Write-Host "  VS Code 제거..." -ForegroundColor Yellow
-    winget uninstall Microsoft.VisualStudioCode --silent 2>$null
-    winget uninstall XP9KHM4BK9FZ7Q --silent 2>$null
-
-    Write-Host "  GitHub CLI 제거..." -ForegroundColor Yellow
-    winget uninstall GitHub.cli --silent 2>$null
-
-    Write-Host "  Node.js 제거..." -ForegroundColor Yellow
-    winget uninstall OpenJS.NodeJS --silent 2>$null
-    winget uninstall OpenJS.NodeJS.LTS --silent 2>$null
-    winget uninstall OpenJS.NodeJS.22 --silent 2>$null
-    winget uninstall OpenJS.NodeJS.20 --silent 2>$null
-    winget uninstall OpenJS.NodeJS.18 --silent 2>$null
-
-    Write-Host "  Python 제거..." -ForegroundColor Yellow
-    winget uninstall Python.Python.3.12 --silent 2>$null
-    winget uninstall Python.Python.3.13 --silent 2>$null
-    winget uninstall Python.Python.3.11 --silent 2>$null
-
-    Write-Host "  Git 제거..." -ForegroundColor Yellow
-    winget uninstall Git.Git --silent 2>$null
-    winget uninstall Git.Git.2 --silent 2>$null
+    Write-Host "  Claude 앱 제거..." -ForegroundColor Yellow
+    winget uninstall --id Anthropic.Claude -e --silent
+    Write-Host "  ChatGPT 앱 제거..." -ForegroundColor Yellow
+    winget uninstall --id 9PLM9XGG6VKS --silent
 }
 
-# Scoop 앱 + Scoop 자체 (위에서 winget으로 못 잡힌 것까지 정리)
+# Scoop 과 Scoop 으로 설치한 전부 (Git, Node.js, Python, uv, gh, Supabase CLI, npm 전역 패키지인 Vercel CLI 포함)
 if (Get-Command scoop -ErrorAction SilentlyContinue) {
     Write-Host "  Scoop 제거 (설치된 패키지 포함)..." -ForegroundColor Yellow
-    scoop uninstall scoop -p 2>$null
+    scoop uninstall scoop -p
 }
-if (Test-Path "$HOME\scoop") {
-    Remove-Item -Recurse -Force "$HOME\scoop"
-}
-
-# VS Code 사용자 설정/키바인딩 제거 (백업본은 남김 — 안전)
-$vscodeUserDir = "$env:APPDATA\Code\User"
-if (Test-Path "$vscodeUserDir\settings.json") {
-    Write-Host "  VS Code settings.json 제거 (백업본은 보존)..." -ForegroundColor Yellow
-    Remove-Item -Force "$vscodeUserDir\settings.json"
-}
-if (Test-Path "$vscodeUserDir\keybindings.json") {
-    Remove-Item -Force "$vscodeUserDir\keybindings.json"
+foreach ($dir in @("$HOME\scoop", "C:\scoop")) {
+    if (Test-Path $dir) { Remove-Item -Recurse -Force $dir }
 }
 
-# PATH 새로고침
-$env:PATH = [System.Environment]::GetEnvironmentVariable("PATH", "User") + ";" + [System.Environment]::GetEnvironmentVariable("PATH", "Machine")
+# Scoop 이 아닌 Node.js 에 깔린 Vercel CLI
+npm uninstall -g vercel 2>$null
+
+# install.ps1 이 등록한 환경 변수
+[System.Environment]::SetEnvironmentVariable("SCOOP", $null, "User")
+[System.Environment]::SetEnvironmentVariable("CLAUDE_CODE_GIT_BASH_PATH", $null, "User")
+
+# 로그인 정보 (login.ps1 을 다시 테스트할 수 있게)
+Write-Host "  GitHub / Vercel / Supabase 로그인 정보 제거..." -ForegroundColor Yellow
+foreach ($dir in @("$env:APPDATA\GitHub CLI", "$env:APPDATA\com.vercel.cli", "$HOME\.supabase")) {
+    if (Test-Path $dir) { Remove-Item -Recurse -Force $dir }
+}
+
+# 실행 정책을 Windows 기본값으로
+Set-ExecutionPolicy -ExecutionPolicy Undefined -Scope CurrentUser -Force
+
+$env:PATH = [System.Environment]::GetEnvironmentVariable("PATH", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("PATH", "User")
 
 Write-Host ""
 Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Blue
-Write-Host "  ✅ 초기화 완료" -ForegroundColor Green
+Write-Host "  초기화 완료" -ForegroundColor Green
 Write-Host "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor Blue
 Write-Host ""
-Write-Host "  PowerShell을 재시작한 뒤 확인하세요:" -ForegroundColor White
-Write-Host "  node --version     # 인식 안 되면 OK" -ForegroundColor Gray
-Write-Host "  python --version   # 인식 안 되면 OK" -ForegroundColor Gray
-Write-Host "  git --version      # 인식 안 되면 OK" -ForegroundColor Gray
-Write-Host "  gh --version       # 인식 안 되면 OK" -ForegroundColor Gray
-Write-Host "  claude --version   # 인식 안 되면 OK" -ForegroundColor Gray
-Write-Host "  code --version     # 인식 안 되면 OK" -ForegroundColor Gray
-Write-Host "  scoop --version    # 인식 안 되면 OK" -ForegroundColor Gray
+Write-Host "  PowerShell 을 새로 열고 확인하세요 (모두 '인식되지 않습니다' 가 나오면 정상):" -ForegroundColor White
+Write-Host "  node --version" -ForegroundColor Gray
+Write-Host "  python --version" -ForegroundColor Gray
+Write-Host "  git --version" -ForegroundColor Gray
+Write-Host "  gh --version" -ForegroundColor Gray
+Write-Host "  supabase --version" -ForegroundColor Gray
+Write-Host "  vercel --version" -ForegroundColor Gray
+Write-Host "  scoop --version" -ForegroundColor Gray
+Write-Host ""
+Write-Host "  C:\projects 폴더는 남겨뒀습니다." -ForegroundColor Gray
 Write-Host ""
